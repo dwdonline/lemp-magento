@@ -64,7 +64,7 @@ pause
 echo
 read -e -p "---> What do you want your MySQL root password to be?: " -i "password" MYSQL_PASSWORD
 
-apt-key -y adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
 
 echo "deb http://repo.percona.com/apt trusty main" >> /etc/apt/sources.list
 
@@ -81,7 +81,7 @@ apt-get -y update
 export DEBIAN_FRONTEND=noninteractive
 echo "percona-server-server-5.6 percona-server-server/root_password password ${MYSQL_PASSWORD}" | sudo debconf-set-selections
 echo "percona-server-server-5.6 percona-server-server/root_password_again password ${MYSQL_PASSWORD}" | sudo debconf-set-selections
-apt-get -y install percona-server-server-5.6 percona-server-client-5.5
+apt-get -y install percona-server-server-5.6 percona-server-client-5.6
 
 echo "---> NOW, LET'S SETUP SSL. YOU'LL NEED TO ADD YOUR CERTIFICATE LATER"
 pause
