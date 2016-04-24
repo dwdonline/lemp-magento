@@ -179,6 +179,7 @@ cd "/var/www/html"
 rm "index.nginx-debian.html"
 wget -q https://www.dwdonline.com/magento-1.9.2.4-2016-02-23-06-04-07.tar.gz
 tar -xzvf magento-1.9.2.4-2016-02-23-06-04-07.tar.gz --strip 1
+rm magento-1.9.2.4-2016-02-23-06-04-07.tar.gz
 
 echo
 read -e -p "---> What do you want to name your Magento MySQL database?: " -i "magento1924" MYSQL_DATABASE
