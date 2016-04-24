@@ -174,7 +174,7 @@ ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)
 
 echo "Please enter your MySQL root password below:"
 
-mysql -u root -p -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${MYSQL_USER}'@'$ip' IDENTIFIED BY '${MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'$ip' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
+mysql -u root -p -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
 
 echo "Your database name is: ${MYSQL_DATABASE}"
 echo "Your database user is: ${MYSQL_USER}"
@@ -203,7 +203,7 @@ read -e -p "---> What do you want your WordPress MySQL password to be?: " -i "" 
 
 echo "Please enter your MySQL root password below:"
 
-mysql -u root -p -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${WP_MYSQL_USER}'@'$ip' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${WP_MYSQL_DATABASE}.* TO '${WP_MYSQL_USER}'@'$ip' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}';"
+mysql -u root -p -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${WP_MYSQL_USER}'@'localhost' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${WP_MYSQL_DATABASE}.* TO '${WP_MYSQL_USER}'@'localhost' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}';"
 
 echo "Your database name is: ${WP_MYSQL_DATABASE}"
 echo "Your database user is: ${WP_MYSQL_USER}"
@@ -218,7 +218,7 @@ pause
 
 cd "/var/www/html"
 
-chown -R www-data .
+chown -R www-data.www-data *
 
 find . -type f -exec chmod 400 {} \;
 find . -type d -exec chmod 500 {} \; 
@@ -228,6 +228,7 @@ find var/ -type d -exec chmod 700 {} \;
 find media/ -type d -exec chmod 700 {} \;
 chmod 700 includes
 chmod 600 includes/config.php
+chmod 777 "/var/www/html/app/etc"
 
 find blog/wp-content/ -type f -exec chmod 600 {} \; 
 find blog/wp-content/ -type d -exec chmod 700 {} \;
