@@ -208,9 +208,27 @@ echo "Your database name is: ${WP_MYSQL_DATABASE}"
 echo "Your database user is: ${WP_MYSQL_USER}"
 echo "Your databse password is: ${WP_MYSQL_USER_PASSWORD}"
 
-
 else
   exit 0
 fi
+
+echo "---> Last thing, let's set the permissions for Magento and WordPresss:"
+pause
+
+cd "/var/www/html"
+
+chown -R www-data .
+
+find . -type f -exec chmod 400 {} \;
+find . -type d -exec chmod 500 {} \; 
+find var/ -type f -exec chmod 600 {} \; 
+find media/ -type f -exec chmod 600 {} \;
+find var/ -type d -exec chmod 700 {} \; 
+find media/ -type d -exec chmod 700 {} \;
+chmod 700 includes
+chmod 600 includes/config.php
+
+find blog/wp-content/ -type f -exec chmod 600 {} \; 
+find blog/wp-content/ -type d -exec chmod 700 {} \;
 
 echo "I just saved you a shitload of time and headache. You're welcome."
