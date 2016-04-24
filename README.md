@@ -6,7 +6,10 @@ To use, login to your server and run the following:
 cd to the directory you want to put the script in. I usually just go to root:
 
 cd
+
 wget -q https://raw.githubusercontent.com/dwdonline/lemp-magento/master/lemp_magento.sh
+
 chmod 550 lemp_magento.sh
+
 ./lemp_magento.sh
 
