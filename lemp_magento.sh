@@ -155,7 +155,7 @@ else
   exit 0
 fi
 
-read -p "Would you like to install Magento now? <y/N> " prompt
+read -p "Would you like to install Magento now?<y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
 
@@ -171,7 +171,9 @@ read -e -p "---> What do you want your Magento MySQL password to be?: " -i "Yn3f
 
 ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
 
-mysql -u root -p ${MYSQL_PASSWORD} -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${MYSQL_USER}'@'$ip' IDENTIFIED BY '${MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'$ip' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
+echo "Please enter your MySQL root password below:"
+
+mysql -u root -p -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${MYSQL_USER}'@'$ip' IDENTIFIED BY '${MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'$ip' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
 
 echo "Your database name is: ${MYSQL_DATABASE}"
 echo "Your database user is: ${MYSQL_USER}"
@@ -194,11 +196,13 @@ unzip latest.zip
 mv wordpress blog
 
 echo
-read -e -p "---> What do you want to name your WordPress MySQL database?: " -i "magento1924" WP_MYSQL_DATABASE
-read -e -p "---> What do you want to name your WordPress MySQL user?: " -i "magento1924user" WP_MYSQL_USER
-read -e -p "---> What do you want your WordPress MySQL password to be?: " -i "Yn3f3nDf" WP_MYSQL_USER_PASSWORD
+read -e -p "---> What do you want to name your WordPress MySQL database?: " -i "" WP_MYSQL_DATABASE
+read -e -p "---> What do you want to name your WordPress MySQL user?: " -i "" WP_MYSQL_USER
+read -e -p "---> What do you want your WordPress MySQL password to be?: " -i "" WP_MYSQL_USER_PASSWORD
 
-mysql -u root -p ${MYSQL_PASSWORD} -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${WP_MYSQL_USER}'@'$ip' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${WP_MYSQL_DATABASE}.* TO '${WP_MYSQL_USER}'@'$ip' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}';"
+echo "Please enter your MySQL root password below:"
+
+mysql -u root -p -e "CREATE database ${MYSQL_DATABASE}; CREATE user '${WP_MYSQL_USER}'@'$ip' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}'; GRANT ALL PRIVILEGES ON ${WP_MYSQL_DATABASE}.* TO '${WP_MYSQL_USER}'@'$ip' IDENTIFIED BY '${WP_MYSQL_USER_PASSWORD}';"
 
 echo "Your database name is: ${WP_MYSQL_DATABASE}"
 echo "Your database user is: ${WP_MYSQL_USER}"
