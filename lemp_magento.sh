@@ -19,6 +19,21 @@ pause
 apt-get update
 apt-get -y install build-essential zip unzip
 
+echo "---> Let's add a new admin user and block the default root from logging in:"
+pause
+
+read -e -p "---> What would you like your new admin user to be?: " -i "" NEW_ADMIN
+read -e -p "---> What should the new admin password be?: " -i "" NEW_ADMIN_PASSWORD
+
+adduser ${NEW_ADMIN} --disabled-password --gecos ""
+echo "${NEW_ADMIN}:${NEW_ADMIN_PASSWORD}"|chpasswd
+
+gpasswd -a ${NEW_ADMIN} sudo
+
+sed -i "s,PermitRootLogin yes,PermitRootLogin no,g" /etc/ssh/sshd_config
+
+service ssh restart
+
 echo "---> ALRIGHT, NOW WE ARE READY TO INSTALL THE GOOD STUFF!"
 pause
 
