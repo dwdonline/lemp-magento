@@ -130,6 +130,7 @@ wget -q https://raw.githubusercontent.com/magenx/nginx-config/master/magento/www
 sed -i "s/example.com/${MY_DOMAIN}/g" /etc/nginx/sites-available/magento.conf
 sed -i "s,root /var/www/html,root ${MY_SHOP_PATH},g" /etc/nginx/sites-available/magento.conf
 sed -i "s,user  nginx,user  ${MY_WEB_USER},g" /etc/nginx/nginx.conf
+sed -i "s,listen = /var/run/php5-fpm.sock,listen = 127.0.0.1:9000,g" /etc/php5/fpm/pool.d/www.conf
 
 ln -s /etc/nginx/sites-available/magento.conf /etc/nginx/sites-enabled/magento.conf
 ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
