@@ -171,6 +171,15 @@ else
   exit 0
 fi
 
+echo "---> Let's install PostFix to handle sending mail:"
+pause
+
+read -e -p "---> What would you like your host to be? I like it to be something like mail.domain.com: " -i "" POSTFIX_SERVER
+
+debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_SERVER}"
+debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+apt-get install -y postfix
+
 read -p "Would you like to install Magento now?<y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
