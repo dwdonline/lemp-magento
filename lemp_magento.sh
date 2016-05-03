@@ -238,8 +238,8 @@ echo "Your database user is: ${WP_MYSQL_USER}"
 echo "Your databse password is: ${WP_MYSQL_USER_PASSWORD}"
 
 else
-//  exit 0
-//fi
+  exit 0
+fi
 
 echo "---> Last thing, let's set the permissions for Magento and WordPresss:"
 pause
