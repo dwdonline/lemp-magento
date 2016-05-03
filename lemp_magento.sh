@@ -24,6 +24,7 @@ pause
 
 read -e -p "---> What would you like your new admin user to be?: " -i "" NEW_ADMIN
 read -e -p "---> What should the new admin password be?: " -i "" NEW_ADMIN_PASSWORD
+read -e -p "---> What should we make the SSH port?: " -i "" NEW_SSH_PORT
 
 adduser ${NEW_ADMIN} --disabled-password --gecos ""
 echo "${NEW_ADMIN}:${NEW_ADMIN_PASSWORD}"|chpasswd
@@ -31,6 +32,8 @@ echo "${NEW_ADMIN}:${NEW_ADMIN_PASSWORD}"|chpasswd
 gpasswd -a ${NEW_ADMIN} sudo
 
 sed -i "s,PermitRootLogin yes,PermitRootLogin no,g" /etc/ssh/sshd_config
+
+sed -i "s,Port 22,Port ${NEW_SSH_PORT},g" /etc/ssh/sshd_config
 
 service ssh restart
 
@@ -77,7 +80,7 @@ echo "---> INSTALLING PERCONA"
 pause
 
 echo
-read -e -p "---> What do you want your MySQL root password to be?: " -i "password" MYSQL_PASSWORD
+read -e -p "---> What do you want your MySQL root password to be?: " -i "password" MYSQL_ROOT_PASSWORD
 
 apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
 
@@ -94,8 +97,8 @@ echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/00percona.pref
 apt-get -y update
 
 export DEBIAN_FRONTEND=noninteractive
-echo "percona-server-server-5.6 percona-server-server/root_password password ${MYSQL_PASSWORD}" | sudo debconf-set-selections
-echo "percona-server-server-5.6 percona-server-server/root_password_again password ${MYSQL_PASSWORD}" | sudo debconf-set-selections
+echo "percona-server-server-5.6 percona-server-server/root_password password ${MYSQL_ROOT_PASSWORD}" | sudo debconf-set-selections
+echo "percona-server-server-5.6 percona-server-server/root_password_again password ${MYSQL_ROOT_PASSWORD}" | sudo debconf-set-selections
 apt-get -y install percona-server-server-5.6 percona-server-client-5.6
 
 echo "---> NOW, LET'S SETUP SSL. YOU'LL NEED TO ADD YOUR CERTIFICATE LATER"
@@ -235,11 +238,13 @@ echo "Your database user is: ${WP_MYSQL_USER}"
 echo "Your databse password is: ${WP_MYSQL_USER_PASSWORD}"
 
 else
-  exit 0
-fi
+//  exit 0
+//fi
 
 echo "---> Last thing, let's set the permissions for Magento and WordPresss:"
 pause
+
+echo "Lovely, this may take a few minutes. Dont fret."
 
 cd "/var/www/html"
 
